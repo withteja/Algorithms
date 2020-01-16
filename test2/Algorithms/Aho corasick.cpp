@@ -1,4 +1,5 @@
 
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -43,7 +44,7 @@ using namespace std;
 #define FOREACH(it, l) for (auto it = l.begin(); it != l.end(); it++)
 #define IN(A, B, C) assert( B <= A && A <= C)
 #define MP make_pair
-#define PB push_b\ack
+#define PB push_back
 #define INF (int)1e9
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
@@ -53,7 +54,7 @@ const double pi=acos(-1.0);
 typedef pair<int, int> PII;
 typedef vector<int> VI;
 typedef vector<string> VS;
-typedef vector<vector<string> > VVS;
+typedef vector<vector<string>> VVS;
 typedef vector<PII> VII;
 typedef vector<VI> VVI;
 typedef map<int,int> MPII;
@@ -139,62 +140,64 @@ template <typename T> inline T readInt()
 #else
     #define debug(args...)                  // Just strip off all debug tokens
 #endif
+const int MAXN = 1e6 + 42;
 
+map<char, int> to[MAXN];
+int link[MAXN], que[MAXN], sz = 1;
 
-#define MAX 1000
-
-VVI g (MAX,VI(MAX,-1));
-VI  f(MAX,0);
-VI  o(MAX);
-VS  v;
-VI arr;
-string text;
-int build(){
-int states=1;
-
-for(int i =0;i<v.size();i++){
-        int cs=0;
-        int len = int(v[i].length());
-        for(int j =0;j<len;j++){
-        
-        int ch=v[i][j]-'a';
-            if(g[cs][ch]==-1){
-            g[cs][ch]=states++;
-            }
-            cs=g[cs][ch];
-                }
-     o[cs]|=(1<<i);
+void add_str(string s, int k)
+{
+    int v = 0;
+    for(auto c: s)
+    {
+        if(!to[v][c]) to[v][c] = sz++;
+        v = to[v][c];
+    }
 }
 
-for(int i =0;i<MAX;i++){
-     if(g[0][i]==-1)g[0][i]=0;
-     }
-     
-     // build failiures
-     
-    queue<int>q;
-    
- for(int i =0;i<MA)
-    
-return states;
+void push_links()
+{
+    link[0] = -1;
+    int st = 0, fi = 1;
+    que[0] = 0;
+    while(st < fi)
+    {
+        int v = que[st++];
+        for(auto it: to[v])
+        {
+            int u = it.second;
+            
+            int c = it.first;
+            int j = link[v];
+            cout<<u <<" "<<char(c)<<" "<<j<<endl;
+            while(j != -1 && !to[j][c]) j = link[j];
+            if(j != -1) link[u] = to[j][c];
+            que[fi++] = u;
+        }
+    }
 }
 
 
 int main (){
-     v= {"he", "she", "hers", "his"}; 
-     text = "ahishers"; 
-build ();   
-for(auto i=0;i<g.size();i++){
-for(auto j=0;j<MAX;j++){
-  if(g[i][j]!=-1){ char ch =j+'a';cout<<g[i][j]<<" "<<i<<" "<<ch<<endl;}
-        }
+
+    string arr[] = {"he", "she", "hers", "his"}; 
+    string text = "ahishers"; 
+    for(int i=0;i<4;i++){
+    add_str(arr[i],4);
     }
-  
+//    ahishers
+    push_links();
+    
+    int k = sizeof(arr)/sizeof(arr[0]); 
+//    for(int i =0;i<MAXN;i++){
+//    if(link[i]!=0)cout<<i<<" "<<link[i]<<"\n";
+//    }
 
-
-   
-
-
+//for(int i =0;i<MAXN;i++){
+//for(int j =0;j<MAXN;j++){
+//if(to[i][j]!=0){
+////cout<<i<<" "<<char(j)<<" "<<to[i][j]<<endl;break;}
+//}
+//}
 return 0;
 }
-
