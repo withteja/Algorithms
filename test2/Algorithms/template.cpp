@@ -143,7 +143,6 @@ template <typename T> inline T readInt()
 
 int main (){
 
-int i =0;
 
 return 0;
 }
